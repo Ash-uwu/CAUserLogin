@@ -20,13 +20,19 @@ public class LoggedInPresenter implements ChangePasswordOutputBoundary {
 
     @Override
     public void prepareSuccessView(ChangePasswordOutputData outputData) {
-        // TODO update the viewmodel!
+        final LoggedInState loggedInState = loggedInViewModel.getState();
+        loggedInState.setPassword(outputData.getUsername());
+        this.loggedInViewModel.setState(loggedInState);
         loggedInViewModel.firePropertyChanged("password");
 
+        this.viewManagerModel.setState(loggedInState.getPassword());
+        this.viewManagerModel.firePropertyChanged();
     }
 
     @Override
     public void prepareFailView(String error) {
-        // TODO update the viewmodel!
+        final LoggedInState loggedInState = loggedInViewModel.getState();
+        loggedInState.setPassword(error);
+        loggedInViewModel.firePropertyChanged("password");
     }
 }
